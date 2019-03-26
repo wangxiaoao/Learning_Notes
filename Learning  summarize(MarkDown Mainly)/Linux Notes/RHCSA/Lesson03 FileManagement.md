@@ -69,7 +69,7 @@ Inode size:	          256
 ```
 
 ## dumpe2fs
-`man dumpe2fs`defines*dumpe2fs prints the super  block  and  blocks  group  information  for  thefilesystem present on device.*
+`man dumpe2fs`defines *dumpe2fs prints the super  block  and  blocks  group  information  for  thefilesystem present on device.*
 -h show superblock only
 
 ## superblock & blockgroup
@@ -90,12 +90,31 @@ Reserved blocks gid:      0 (group root)
 ```
 
 ## inode number
+show inode number
 ```shell
 ls -i /etc/passwd
 
 919500 /etc/passwd
 ```
 
-## 
+# Link
+A **hard link** then just creates another file with a link to the same underlying inode.
+When you delete a file it removes one link to the underlying inode. The inode is only deleted (or deletable/over-writable) when all links to the inode have been deleted.
+A **symbolic link** is a link to another name in the file system.
+![RHCSA_Lesson3_Link](https://github.com/wangxiaoao/Learning_Notes/blob/master/Learning%20%20summarize(MarkDown%20Mainly)/Linux%20Notes/RHCSA%20Course/picture/RHCSA_Lesson3_Link.png?raw=true)
+
+```shell{.line-numbers}
+touch data
+#create hardlink
+ln data hard_link
+#create symbolic link
+ln -s data symbolic link
+ls -li
+
+398304 -rw-r--r-- 2 root root 0 Mar 26 17:24 data
+398304 -rw-r--r-- 2 root root 0 Mar 26 17:24 hard_link
+398306 lrwxrwxrwx 1 root root 4 Mar 26 17:25 symbolic_link -> data
+
+
 
 
