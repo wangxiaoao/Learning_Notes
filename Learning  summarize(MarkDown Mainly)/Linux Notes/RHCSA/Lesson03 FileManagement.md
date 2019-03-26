@@ -74,6 +74,7 @@ Inode size:	          256
 
 ## superblock & blockgroup
 *https://unix.stackexchange.com/questions/4402/what-is-a-superblock-inode-dentry-and-a-file*
+
 **superblock** 文件系统元数据，定义了文件系统的类型、大小、状态等结构。"metadata of metadata"  
 **dentry** 连接inode和文件名
 **blockgroup** 一组block，用于减少大文件读写时的时间。 
