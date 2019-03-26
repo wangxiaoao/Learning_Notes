@@ -1,37 +1,37 @@
 # ls mkdir rm cp mv 
-`mkdir -p /a/b/c` make new directory
+`mkdir -p /a/b/c` 创建新目录
 
 # find
 ```shell
 find /etc -name pass* 
 /etc/pam.d/password-auth-ac
 /etc/pam.d/passwd
-(...omitted)
+(...省略)
 
 find /home -user ansible
 /home/ansible
 /home/ansible/.cache
-(...ommited)
+(...省略)
 
 ```
 
 # inode
-*sortedby http://www.ruanyifeng.com/blog/2011/12/inode.html*
+*整理自 http://www.ruanyifeng.com/blog/2011/12/inode.html*
 
-Sector:minimum storage unit,512Byte=0.5KB
-Block:8 Sector,minimum read/write unit
-Inode:file=data+inode
+Sector：最小存储单元512Byte=0.5KB
+Block:最小读写单元，4KB
+Inode:文件包含数据和inode
 
-inode contains
-- size of the file in bytes
+inode 包含
+- 文件大小（Bytes)
 - user-id
 - group-id
-- rwx
+- rwx权限
 - timestamps，ctime,mtime,atime
-- link count
-- block numbers
+- link数量
+- block数量
 
-show file inodes
+查看文件inode
 ```shell
 stat /etc/passwd
 
@@ -46,7 +46,7 @@ Change: 2019-03-23 13:14:12.068278834 +0800
 ```
 
 ## inode table
-show inode amount and free inode amount
+查看inode数量和剩余inode数量
 ```shell
 df -i
 
@@ -60,7 +60,7 @@ tmpfs           127020     1  127019    1% /run/user/0
 
 ```
 
-show inode sizes
+查看inode大小
 ```shell
 dumpe2fs -h /dev/vda1 | grep "Inode size"
 
@@ -69,15 +69,15 @@ Inode size:	          256
 ```
 
 ## dumpe2fs
-`man dumpe2fs`defines *dumpe2fs prints the super  block  and  blocks  group  information  for  thefilesystem present on device.*
--h show superblock only
+`man dumpe2fs`dumpe2fs用来查看superblock和blockgroup
+-h 仅查看superblock信息
 
 ## superblock & blockgroup
 *https://unix.stackexchange.com/questions/4402/what-is-a-superblock-inode-dentry-and-a-file*
-The **superblock** is essentially file system metadata and defines the file system type, size, status, and information about other metadata structures (metadata of metadata). 
-A **dentry** is the glue that holds inodes and files together by relating inode numbers to file names.
-A **blockgroup** that we discussed in the previous section are further grouped together to form block groups for ease of access during read and writes. This is primarily done to reduce the amount of time taken while reading or writing large amounts of data. 
-
+**superblock** 文件系统元数据，定义了文件系统的类型、大小、状态等结构。"metadata of metadata"  
+**dentry** 连接inode和文件名
+**blockgroup** 一组block，用于减少大文件读写时的时间。 
+查看blockgroup包含多少block
 ```shell
 dumpe2fs -h /dev/vda1 | grep group
 dumpe2fs 1.42.9 (28-Dec-2013)
@@ -90,7 +90,7 @@ Reserved blocks gid:      0 (group root)
 ```
 
 ## inode number
-show inode number
+查看inode number
 ```shell
 ls -i /etc/passwd
 
@@ -99,8 +99,10 @@ ls -i /etc/passwd
 
 # Link
 A **hard link** then just creates another file with a link to the same underlying inode.
-When you delete a file it removes one link to the underlying inode. The inode is only deleted (or deletable/over-writable) when all links to the inode have been deleted.
-A **symbolic link** is a link to another name in the file system.
+Hard_link inode相同，创建一个新文件链接到当前inode。
+只有所有链接到一个inode的文件都删除了，inode才会被删除或者重写。
+symbolic_link链接到文件名。
+
 ![RHCSA_Lesson3_Link](https://github.com/wangxiaoao/Learning_Notes/blob/master/Learning%20%20summarize(MarkDown%20Mainly)/Linux%20Notes/RHCSA%20Course/picture/RHCSA_Lesson3_Link.png?raw=true)
 
 ```shell{.line-numbers}
@@ -114,6 +116,8 @@ ls -li
 398304 -rw-r--r-- 2 root root 0 Mar 26 17:24 data
 398304 -rw-r--r-- 2 root root 0 Mar 26 17:24 hard_link
 398306 lrwxrwxrwx 1 root root 4 Mar 26 17:25 symbolic_link -> data
+```
+>注意hard_link inode相同，symbolic_link显示方式不同。
 
 
 
