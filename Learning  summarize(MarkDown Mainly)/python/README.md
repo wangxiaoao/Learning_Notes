@@ -1,0 +1,1 @@
+notes from oreilly safari online lesson *"Python for Beginners: Learn Python Programming (Python 3)"*
